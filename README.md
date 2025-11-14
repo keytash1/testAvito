@@ -67,6 +67,9 @@ curl -X POST http://localhost:8080/pullRequest/merge -H "Content-Type: applicati
 
 - Поле `needMoreReviewers` PullRequest отсутствует в openapi.yml, поэтому не реализовано
 
+## Переменные окружения
+ - DATABASE_URL = postgres://pr_user:pr_pass@db:5432/pr_db?sslmode=disable
+
 ## TODO
 
 - Дополнительные задания
