@@ -113,7 +113,7 @@ func TestAPI(t *testing.T) {
 		}
 		defer resp.Body.Close()
 
-		t.Log("✅ All endpoints tested successfully!")
+		t.Log("All endpoints tested successfully!")
 	})
 }
 
