@@ -85,4 +85,4 @@ golangci-lint run
 ```bash
 k6 run loadtest.js
 ```
-Результаты: loadtestres.md
+Результаты: loadtest_report.md
