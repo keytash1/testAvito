@@ -15,7 +15,6 @@ func NewTeamService(tr *repository.TeamRepository, ur *repository.UserRepository
 }
 
 func (s *TeamService) Create(req *models.Team) (*models.Team, error) {
-
 	err := s.teamRepo.CreateTeam(req)
 	if err != nil {
 		return nil, err

@@ -9,7 +9,6 @@ import (
 )
 
 func New() *gin.Engine {
-
 	r := gin.Default()
 
 	userRepo := repository.NewUserRepository()

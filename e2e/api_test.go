@@ -38,14 +38,22 @@ func TestAPI(t *testing.T) {
 		if resp.StatusCode != http.StatusCreated {
 			t.Fatalf("POST /team/add: Expected 201, got %d", resp.StatusCode)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("Failed to close response body: %v", err)
+			}
+		}()
 
 		// 2. Get team - GET /team/get
 		resp = makeRequest(t, "GET", "/team/get?team_name="+teamName, nil)
 		if resp.StatusCode != http.StatusOK {
 			t.Fatalf("GET /team/get: Expected 200, got %d", resp.StatusCode)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("Failed to close response body: %v", err)
+			}
+		}()
 
 		// 3. Create PR - POST /pullRequest/create
 		prData := map[string]string{
@@ -59,14 +67,22 @@ func TestAPI(t *testing.T) {
 		if resp.StatusCode != http.StatusCreated {
 			t.Fatalf("POST /pullRequest/create: Expected 201, got %d", resp.StatusCode)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("Failed to close response body: %v", err)
+			}
+		}()
 
 		// 4. Get user reviews - GET /users/getReview
 		resp = makeRequest(t, "GET", "/users/getReview?user_id="+user2, nil)
 		if resp.StatusCode != http.StatusOK {
 			t.Fatalf("GET /users/getReview: Expected 200, got %d", resp.StatusCode)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("Failed to close response body: %v", err)
+			}
+		}()
 
 		// 5. Deactivate user - POST /users/setIsActive
 		userData := map[string]interface{}{
@@ -79,7 +95,11 @@ func TestAPI(t *testing.T) {
 		if resp.StatusCode != http.StatusOK {
 			t.Fatalf("POST /users/setIsActive: Expected 200, got %d", resp.StatusCode)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("Failed to close response body: %v", err)
+			}
+		}()
 
 		// 6. Reassign reviewer - POST /pullRequest/reassign
 		reassignData := map[string]string{
@@ -92,7 +112,11 @@ func TestAPI(t *testing.T) {
 		if resp.StatusCode != http.StatusOK {
 			t.Fatalf("POST /pullRequest/reassign: Expected 200, got %d", resp.StatusCode)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("Failed to close response body: %v", err)
+			}
+		}()
 
 		// 7. Merge PR - POST /pullRequest/merge
 		mergeData := map[string]string{
@@ -104,14 +128,22 @@ func TestAPI(t *testing.T) {
 		if resp.StatusCode != http.StatusOK {
 			t.Fatalf("POST /pullRequest/merge: Expected 200, got %d", resp.StatusCode)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("Failed to close response body: %v", err)
+			}
+		}()
 
 		// 8. Verify merged PR not in review list - GET /users/getReview
 		resp = makeRequest(t, "GET", "/users/getReview?user_id="+user3, nil)
 		if resp.StatusCode != http.StatusOK {
 			t.Fatalf("GET /users/getReview after merge: Expected 200, got %d", resp.StatusCode)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("Failed to close response body: %v", err)
+			}
+		}()
 
 		t.Log("All endpoints tested successfully!")
 	})

@@ -1,0 +1,26 @@
+version: "2"
+linters:
+  enable:
+    - govet
+    - staticcheck
+    - unused
+    - ineffassign
+    - misspell
+    - whitespace
+    - errcheck
+    - bodyclose
+    - gocritic
+    - gocyclo
+
+linters-settings:
+  gocyclo:
+    min-complexity: 15
+  gocritic:
+    enabled-tags:
+      - performance
+      - style
+
+run:
+  timeout: 5m
+
+

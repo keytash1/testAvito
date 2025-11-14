@@ -46,6 +46,6 @@ func (h *TeamHandler) GetTeamGet(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": gin.H{"code": "NOT_FOUND", "message": "team not found"}})
 		return
 	}
-	//TeamMembers or Users
+
 	c.JSON(http.StatusOK, team)
 }

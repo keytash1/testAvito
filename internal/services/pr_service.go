@@ -47,8 +47,8 @@ func (s *PullRequestService) Create(prID, title string, authorId string) (models
 	return pr, nil
 }
 
-func (s *PullRequestService) MergePullRequest(PullRequestId string) (*models.PullRequest, error) {
-	pr, err := s.prRepo.GetByID(PullRequestId)
+func (s *PullRequestService) MergePullRequest(pullRequestId string) (*models.PullRequest, error) {
+	pr, err := s.prRepo.GetByID(pullRequestId)
 	if err != nil {
 		return nil, models.ErrNotFound
 	}
@@ -56,7 +56,7 @@ func (s *PullRequestService) MergePullRequest(PullRequestId string) (*models.Pul
 		return pr, nil
 	}
 	now := time.Now().UTC()
-	if err := s.prRepo.MergePullRequest(PullRequestId, &now); err != nil {
+	if err := s.prRepo.MergePullRequest(pullRequestId, &now); err != nil {
 		return nil, err
 	}
 	pr.Status = models.PullRequestStatusMERGED

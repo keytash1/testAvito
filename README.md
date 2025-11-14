@@ -32,11 +32,6 @@ docker-compose up --build
 - **POST /pullRequest/merge** — Пометить PR как MERGED
 - **POST /pullRequest/reassign** — Переназначить ревьювера
 
-## Тестирование
-
-```bash
-go test ./tests/ -v
-```
 
 ## Примеры запросов
 
@@ -73,4 +68,21 @@ curl -X POST http://localhost:8080/pullRequest/merge -H "Content-Type: applicati
 ## TODO
 
 - Дополнительные задания
-- Тестирование
+- ТестоваяБД
+- TeamMember or User
+- Поменять ошибки на ErrResponse moldels.go
+
+## Дополнительные задания
+### E2E тесты
+```bash
+go test ./e2e/ -v
+```
+## Линтер
+```bash
+golangci-lint run
+```
+### Нагрузочное тестирование
+```bash
+k6 run loadtest.js
+```
+Результаты: loadtestres.md
