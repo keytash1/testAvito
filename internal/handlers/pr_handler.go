@@ -64,7 +64,7 @@ func (h *PullRequestHandler) PostPullRequestMerge(c *gin.Context) {
 func (h *PullRequestHandler) PostPullRequestReassign(c *gin.Context) {
 	var req struct {
 		PullRequestID string `json:"pull_request_id"`
-		OldUserID     string `json:"old_reviewer_id"`
+		OldUserID     string `json:"old_user_id"`
 	}
 	if err := c.BindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
