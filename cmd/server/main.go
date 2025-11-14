@@ -9,8 +9,7 @@ import (
 
 func main() {
 	db.Connect()
-	////remove this
-	db.DB.Migrator().DropTable(&models.User{}, &models.Team{}, &models.PullRequest{})
+	//db.DB.Migrator().DropTable(&models.User{}, &models.Team{}, &models.PullRequest{})
 	if err := db.DB.AutoMigrate(&models.User{}, &models.Team{}, &models.PullRequest{}); err != nil {
 		log.Fatal("migrate:", err)
 	}

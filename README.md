@@ -1,34 +1,73 @@
-\# PR Reviewer Assignment Service
+# PR Reviewer Assignment Service
 
+Сервис для управления pull request и назначения ревьюверов.
 
+## Архитектура
 
-Архитектура:
+- **handlers** — HTTP уровень (Gin)
+- **services** — бизнес-логика  
+- **repository** — работа с БД (GORM)
+- **models** — сущности данных
 
-\- handlers — HTTP уровень (Gin)
+## Запуск
 
-\- services — бизнес-логика
-
-\- repository — работа с БД (GORM)
-
-\- models — сущности данных
-
-
-
-\## Запуск
-
-
+```bash
 docker-compose up --build
+```
 
+Приложение будет доступно по адресу: http://localhost:8080
 
+## API Endpoints
 
-http://localhost:8080
+### Teams
+- **POST /team/add** — Создать команду с участниками
+- **GET /team/get** — Получить команду с участниками
 
-\##Тесты
+### Users
+- **POST /users/setIsActive** — Установить флаг активности пользователя
+- **GET /users/getReview** — Получить PR'ы пользователя для ревью
 
+### Pull Requests
+- **POST /pullRequest/create** — Создать PR и назначить ревьюверов
+- **POST /pullRequest/merge** — Пометить PR как MERGED
+- **POST /pullRequest/reassign** — Переназначить ревьювера
+
+## Тестирование
+
+```bash
 go test ./tests/ -v
+```
 
-### Допущения
-- Поле `needMoreReviewers` отсутствует в openapi.yml → не реализовано.
-- В ТЗ сказано, что при reassignReviewer новый ревьюер берется из команды старого. Также сказано что при создани PullRequest мы должны назначать ревьеров из команды автора. Получается, перенезначать и команды ревьюера = переназначать из команды автора, но я решил всё же реализовать логику по которой новый берется именно из команды старого, а не из команды автора, что было бы проще
+## Примеры запросов
 
-TODO - ДОПЗАДАНИЯ ТЕСТИРОВАНИЕ
+```bash
+# Создание команды
+curl -X POST http://localhost:8080/team/add -H "Content-Type: application/json" -d "{"team_name":"backend","members":[{"user_id":"u1","username":"Alice","is_active":true},{"user_id":"u2","username":"Bob","is_active":true},{"user_id":"u3","username":"Charlie","is_active":true},{"user_id":"u4","username":"David","is_active":true},{"user_id":"u5","username":"Eve","is_active":true}]}"
+
+# Получение команды
+curl -X GET "http://localhost:8080/team/get?team_name=backend"
+
+# Создание PR
+curl -X POST http://localhost:8080/pullRequest/create -H "Content-Type: application/json" -d "{"pull_request_id":"pr-1001","pull_request_name":"Add search feature","author_id":"u1"}"
+
+# Получение PR для ревью
+curl -X GET "http://localhost:8080/users/getReview?user_id=u2"
+
+# Переназначение ревьювера
+curl -X POST http://localhost:8080/pullRequest/reassign -H "Content-Type: application/json" -d "{"pull_request_id":"pr-1001","old_user_id":"u2"}"
+
+# Изменение активности пользователя
+curl -X POST http://localhost:8080/users/setIsActive -H "Content-Type: application/json" -d "{"user_id":"u4","is_active":false}"
+
+# Мердж PR
+curl -X POST http://localhost:8080/pullRequest/merge -H "Content-Type: application/json" -d "{"pull_request_id":"pr-1001"}"
+```
+
+## Допущения
+
+- Поле `needMoreReviewers` PullRequest отсутствует в openapi.yml, поэтому не реализовано
+
+## TODO
+
+- Дополнительные задания
+- Тестирование

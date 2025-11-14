@@ -23,38 +23,6 @@ func (r *PullRequestRepository) MergePullRequest(prID string, mergedAt *time.Tim
 		}).Error
 }
 
-/*
-func (r *PullRequestRepository) ReassignReviewer(prID, oldUserId, newUserID string) error {
-	var pr models.PullRequest
-	err := db.DB.Where("pull_request_id = ?", prID).First(&pr).Error
-	if err != nil {
-		return err
-	}
-
-	newReviewers := make([]string, 0, len(pr.AssignedReviewers))
-	found := false
-	for _, reviewer := range pr.AssignedReviewers {
-		if reviewer == oldUserId {
-			newReviewers = append(newReviewers, newUserID)
-			found = true
-		} else {
-			newReviewers = append(newReviewers, reviewer)
-		}
-	}
-	if !found {
-		return errors.New("reviewer not assigned to this pull request")
-	}
-
-	return db.DB.Model(&pr).Update("assigned_reviewers", newReviewers).Error
-}
-*/
-/*
-func (r *PullRequestRepository) UpdateReviewers(prID string, reviewers []string) error {
-	return db.DB.Model(&models.PullRequest{}).
-		Where("pull_request_id = ?", prID).
-		Update("assigned_reviewers", reviewers).Error
-}
-*/
 func (r *PullRequestRepository) Save(pr *models.PullRequest) error {
 	return db.DB.Save(pr).Error
 }
