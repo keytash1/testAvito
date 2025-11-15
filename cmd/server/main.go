@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 	"pr_reviewer_service_go/internal/db"
 	"pr_reviewer_service_go/internal/models"
 	"pr_reviewer_service_go/internal/router"
@@ -15,7 +16,12 @@ func main() {
 	}
 
 	r := router.New()
-	if err := r.Run(":8080"); err != nil {
+	serverURL := os.Getenv("SERVER_URL")
+	if serverURL == "" {
+		log.Fatal("SERVER_URL environment variable is required")
+	}
+
+	if err := r.Run(serverURL); err != nil {
 		log.Fatal(err)
 	}
 }

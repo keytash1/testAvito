@@ -22,5 +22,6 @@ services:
         condition: service_healthy
     environment:
       DATABASE_URL: postgres://pr_user:pr_pass@db:5432/pr_db?sslmode=disable
+      SERVER_URL: localhost:8080
     ports:
       - "8080:8080"

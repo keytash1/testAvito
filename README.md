@@ -75,7 +75,6 @@ curl -X POST http://localhost:8080/pullRequest/merge -H "Content-Type: applicati
 - Логирование
 - Написать интерфейсы для билдеров
 - ИД не стринги
-- localhost into env
 
 ## Дополнительные задания
 ### E2E тесты
