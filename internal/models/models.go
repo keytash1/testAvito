@@ -5,20 +5,24 @@ import (
 	"time"
 )
 
-type ErrorResponse struct {
-	Error struct {
-		Code    error  `json:"code"`
-		Message string `json:"message"`
-	} `json:"error"`
-}
+type ErrorResponseErrorCode string
+
+const (
+	NOCANDIDATE ErrorResponseErrorCode = "NO_CANDIDATE"
+	NOTASSIGNED ErrorResponseErrorCode = "NOT_ASSIGNED"
+	NOTFOUND    ErrorResponseErrorCode = "NOT_FOUND"
+	PREXISTS    ErrorResponseErrorCode = "PR_EXISTS"
+	PRMERGED    ErrorResponseErrorCode = "PR_MERGED"
+	TEAMEXISTS  ErrorResponseErrorCode = "TEAM_EXISTS"
+)
 
 var (
-	ErrNotFound    = errors.New("NOT_FOUND")
-	ErrPRExists    = errors.New("PR_EXISTS")
-	ErrPRMerged    = errors.New("PR_MERGED")
-	ErrNoCandidate = errors.New("NO_CANDIDATE")
-	ErrNotAssigned = errors.New("NOT_ASSIGNED")
-	ErrTeamExists  = errors.New("TEAM_EXISTS")
+	ErrTeamExists  = errors.New("team already exists")
+	ErrPRExists    = errors.New("PR id already exists")
+	ErrPRMerged    = errors.New("cannot reassign on merged PR")
+	ErrNotAssigned = errors.New("reviewer is not assigned to this PR")
+	ErrNoCandidate = errors.New("no active replacement candidate in team")
+	ErrNotFound    = errors.New("resource not found")
 )
 
 type PullRequest struct {

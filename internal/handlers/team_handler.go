@@ -25,7 +25,7 @@ func (h *TeamHandler) PostTeamAdd(c *gin.Context) {
 	createdTeam, err := h.svc.Create(&team)
 	if err != nil {
 		if err == models.ErrTeamExists {
-			c.JSON(http.StatusBadRequest, gin.H{"error": gin.H{"code": "TEAM_EXISTS", "message": err.Error()}})
+			c.JSON(http.StatusBadRequest, gin.H{"error": gin.H{"code": models.TEAMEXISTS, "message": err.Error()}})
 			return
 		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -43,7 +43,7 @@ func (h *TeamHandler) GetTeamGet(c *gin.Context) {
 
 	team, err := h.svc.GetByName(teamName)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": gin.H{"code": "NOT_FOUND", "message": "team not found"}})
+		c.JSON(http.StatusNotFound, gin.H{"error": gin.H{"code": models.NOTFOUND, "message": err.Error()}})
 		return
 	}
 

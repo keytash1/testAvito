@@ -30,9 +30,9 @@ func (h *PullRequestHandler) PostPullRequestCreate(c *gin.Context) {
 	if err != nil {
 		switch err {
 		case models.ErrNotFound:
-			c.JSON(http.StatusNotFound, gin.H{"error": gin.H{"code": "NOT_FOUND", "message": err.Error()}})
+			c.JSON(http.StatusNotFound, gin.H{"error": gin.H{"code": models.NOTFOUND, "message": err.Error()}})
 		case models.ErrPRExists:
-			c.JSON(http.StatusConflict, gin.H{"error": gin.H{"code": "PR_EXISTS", "message": err.Error()}})
+			c.JSON(http.StatusConflict, gin.H{"error": gin.H{"code": models.PREXISTS, "message": err.Error()}})
 		default:
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
@@ -52,7 +52,7 @@ func (h *PullRequestHandler) PostPullRequestMerge(c *gin.Context) {
 	pr, err := h.svc.MergePullRequest(req.PullRequestID)
 	if err != nil {
 		if err == models.ErrNotFound {
-			c.JSON(http.StatusNotFound, gin.H{"error": gin.H{"code": "NOT_FOUND", "message": err.Error()}})
+			c.JSON(http.StatusNotFound, gin.H{"error": gin.H{"code": models.NOTFOUND, "message": err.Error()}})
 			return
 		}
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -74,14 +74,13 @@ func (h *PullRequestHandler) PostPullRequestReassign(c *gin.Context) {
 	if err != nil {
 		switch err {
 		case models.ErrNotFound:
-			c.JSON(http.StatusNotFound, gin.H{"error": gin.H{"code": "NOT_FOUND", "message": err.Error()}})
+			c.JSON(http.StatusNotFound, gin.H{"error": gin.H{"code": models.NOTFOUND, "message": err.Error()}})
 		case models.ErrPRMerged:
-			///??
-			c.JSON(http.StatusConflict, gin.H{"error": gin.H{"code": "PR_MERGED", "message": err.Error()}})
+			c.JSON(http.StatusConflict, gin.H{"error": gin.H{"code": models.PRMERGED, "message": err.Error()}})
 		case models.ErrNotAssigned:
-			c.JSON(http.StatusConflict, gin.H{"error": gin.H{"code": "NOT_ASSIGNED", "message": err.Error()}})
+			c.JSON(http.StatusConflict, gin.H{"error": gin.H{"code": models.NOTASSIGNED, "message": err.Error()}})
 		case models.ErrNoCandidate:
-			c.JSON(http.StatusConflict, gin.H{"error": gin.H{"code": "NO_CANDIDATE", "message": err.Error()}})
+			c.JSON(http.StatusConflict, gin.H{"error": gin.H{"code": models.NOCANDIDATE, "message": err.Error()}})
 		default:
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}

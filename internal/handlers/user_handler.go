@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"pr_reviewer_service_go/internal/models"
 	"pr_reviewer_service_go/internal/repository"
 	"pr_reviewer_service_go/internal/services"
 
@@ -24,7 +25,7 @@ func (h *UserHandler) GetUsersGetReview(c *gin.Context) {
 		return
 	}
 	if _, err := h.svc.GetByID(userId); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": gin.H{"code": "NOT_FOUND", "message": "user not found"}})
+		c.JSON(http.StatusNotFound, gin.H{"error": gin.H{"code": models.NOTFOUND, "message": err.Error()}})
 		return
 	}
 	prs, err := h.svc.GetUserReviewPRs(userId)
@@ -46,7 +47,7 @@ func (h *UserHandler) PostUsersSetIsActive(c *gin.Context) {
 	}
 	user, err := h.svc.SetUserActive(req.UserID, req.IsActive)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": gin.H{"code": "NOT_FOUND", "message": err.Error()}})
+		c.JSON(http.StatusNotFound, gin.H{"error": gin.H{"code": models.NOTFOUND, "message": err.Error()}})
 		return
 	}
 

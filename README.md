@@ -61,6 +61,7 @@ curl -X POST http://localhost:8080/pullRequest/merge -H "Content-Type: applicati
 ## Допущения
 
 - Поле `needMoreReviewers` PullRequest отсутствует в openapi.yml, поэтому не реализовано
+- При ошибке возвращается и выводится string, а не error согласно api
 
 ## Переменные окружения
  - DATABASE_URL = postgres://pr_user:pr_pass@db:5432/pr_db?sslmode=disable
@@ -69,10 +70,8 @@ curl -X POST http://localhost:8080/pullRequest/merge -H "Content-Type: applicati
 
 * Добавить простой эндпоинт статистики (например, количество назначений по пользователям и/или по PR).
 * Добавить метод массовой деактивации пользователей команды и безопасную переназначаемость открытых PR (стремиться уложиться в 100 мс для средних объёмов данных).
-- TeamMember or User
-- Поменять ошибки на ErrResponse moldels.go
+- Пофиксить ошибки
 - Добавить индексы
-- Добавить транзакции при создании команды и пользователей
 - Отдельная бд для тестирования(докер компос)
 - Автолинтер
 - Логирование
