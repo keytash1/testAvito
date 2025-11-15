@@ -5,12 +5,20 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
+	"os"
 	"testing"
 	"time"
 )
 
-const baseURL = "http://localhost:8080"
+func getBaseURL() string {
+	url := os.Getenv("TEST_URL")
+	if url == "" {
+		log.Fatal("TEST_URL environment variable is required")
+	}
+	return url
+}
 
 func TestAPI(t *testing.T) {
 	// Генерируем уникальные имена для каждого запуска тестов
@@ -824,7 +832,7 @@ func checkErrorCode(t *testing.T, errorResponse map[string]interface{}, expected
 }
 
 func makeRequest(t *testing.T, method, path string, body []byte) *http.Response {
-	req, err := http.NewRequest(method, baseURL+path, bytes.NewBuffer(body))
+	req, err := http.NewRequest(method, getBaseURL()+path, bytes.NewBuffer(body))
 	if err != nil {
 		t.Fatal(err)
 	}

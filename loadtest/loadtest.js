@@ -13,7 +13,8 @@ export let options = {
   },
 };
 
-const BASE_URL = 'http://localhost:8080';
+// Используем переменную окружения или значение по умолчанию
+const BASE_URL = __ENV.K6_BASE_URL || 'http://app_e2e:8080';
 
 export default function () {
   const timestamp = Date.now();
@@ -43,14 +44,17 @@ export default function () {
 
   const params = {
     headers: { 'Content-Type': 'application/json' },
+    tags: { name: 'create_team' },
   };
 
+  // Создание команды
   let res = http.post(`${BASE_URL}/team/add`, teamData, params);
   check(res, { 
     'team created': (r) => r.status === 201,
   });
 
-  res = http.get(`${BASE_URL}/team/get?team_name=${teamName}`);
+  // Получение команды
+  res = http.get(`${BASE_URL}/team/get?team_name=${teamName}`, { tags: { name: 'get_team' } });
   check(res, { 
     'team retrieved': (r) => r.status === 200,
   });

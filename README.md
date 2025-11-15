@@ -63,30 +63,37 @@ curl -X POST http://localhost:8080/pullRequest/merge -H "Content-Type: applicati
 - Поле `needMoreReviewers` PullRequest отсутствует в openapi.yml, поэтому не реализовано
 - При ошибке возвращается и выводится string, а не error согласно api
 
-## Переменные окружения
- - DATABASE_URL = postgres://pr_user:pr_pass@db:5432/pr_db?sslmode=disable
-
 ## TODO
 
 * Добавить простой эндпоинт статистики (например, количество назначений по пользователям и/или по PR).
 * Добавить метод массовой деактивации пользователей команды и безопасную переназначаемость открытых PR (стремиться уложиться в 100 мс для средних объёмов данных).
 - Добавить индексы
-- Отдельная бд для тестирования(докер компос)
 - Логирование
 - Написать интерфейсы для билдеров
 - ИД не стринги
 
 ## Дополнительные задания
 ### E2E тесты
+Запустить тестовое окружение:
 ```bash
-go test ./e2e/ -v
+docker-compose -f docker-compose.test.yml up -d --build
+```
+Запустить тесты:
+```bash
+docker-compose -f docker-compose.test.yml exec tests go test -v ./e2e/api_test.go
 ```
 ## Линтер
+Запустить линтер
 ```bash
 golangci-lint run
 ```
 ### Нагрузочное тестирование
+Запустить тестовое окружение:
 ```bash
-k6 run loadtest.js
+docker-compose -f docker-compose.test.yml up -d --build
 ```
-Результаты: loadtest_report.md
+Запустить нагрузочное тестирование:
+```bash
+docker-compose -f docker-compose.test.yml exec loadtest k6 run /scripts/loadtest.js
+```
+Результаты: loadtest/loadtest_report.md

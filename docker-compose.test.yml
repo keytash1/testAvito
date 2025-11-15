@@ -1,0 +1,51 @@
+services:
+  db_e2e:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_pass
+      POSTGRES_DB: test_db
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test_user -d test_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  app_e2e:
+    build: .
+    depends_on:
+      db_e2e:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://test_user:test_pass@db_e2e:5432/test_db?sslmode=disable
+      SERVER_URL: :8080
+      AUTO_MIGRATE: "true"
+    ports:
+      - "8081:8080"
+    command: sh -c "sleep 3 && ./server"
+
+  tests:
+    build:
+      context: .
+      dockerfile: e2e/Dockerfile
+    depends_on:
+      - app_e2e
+    environment:
+      TEST_URL: http://app_e2e:8080
+    tty: true
+    stdin_open: true
+    command: tail -f /dev/null
+
+  loadtest:
+    build:
+      context: ./loadtest
+      dockerfile: Dockerfile
+    depends_on:
+      - app_e2e
+    volumes:
+      - ./loadtest:/scripts
+    environment:
+      K6_BASE_URL: http://app_e2e:8080
