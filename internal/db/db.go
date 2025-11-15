@@ -13,7 +13,7 @@ var DB *gorm.DB
 func Connect() {
 	dsn := os.Getenv("DATABASE_URL")
 	if dsn == "" {
-		dsn = "postgres://pr_user:pr_pass@localhost:5432/pr_db?sslmode=disable"
+		log.Fatal("DATABASE_URL environment variable is required")
 	}
 	var err error
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
@@ -21,5 +21,3 @@ func Connect() {
 		log.Fatal("failed to connect to DB:", err)
 	}
 }
-
-//
