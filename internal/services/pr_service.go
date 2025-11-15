@@ -111,6 +111,17 @@ func (s *PullRequestService) ReassignReviewer(pullRequestId string, oldReviewerI
 		return "", nil, models.ErrNotFound
 	}
 
+	isAssigned := false
+	for _, reviewer := range pr.AssignedReviewers {
+		if reviewer == oldReviewerID {
+			isAssigned = true
+			break
+		}
+	}
+	if !isAssigned {
+		return "", nil, models.ErrNotAssigned
+	}
+
 	activeUsers, err := s.userRepo.GetActiveUsersByTeam(oldReviewer.TeamName)
 	if err != nil {
 		return "", nil, err
@@ -136,16 +147,11 @@ func (s *PullRequestService) ReassignReviewer(pullRequestId string, oldReviewerI
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	newReviewer := candidates[r.Intn(len(candidates))]
 
-	replaced := false
-	for i, r := range pr.AssignedReviewers {
-		if r == oldReviewerID {
+	for i, reviewer := range pr.AssignedReviewers {
+		if reviewer == oldReviewerID {
 			pr.AssignedReviewers[i] = newReviewer
-			replaced = true
 			break
 		}
-	}
-	if !replaced {
-		return "", nil, models.ErrNotAssigned
 	}
 
 	if err := s.prRepo.Save(pr); err != nil {
