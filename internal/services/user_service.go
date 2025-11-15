@@ -11,11 +11,6 @@ type UserService struct {
 
 func NewUserService(r *repository.UserRepository) *UserService { return &UserService{repo: r} }
 
-func (s *UserService) Create(username, fullName string, active bool) (*models.User, error) {
-	u := models.User{Username: username, IsActive: active}
-	return &u, s.repo.CreateUser(&u)
-}
-
 func (s *UserService) SetUserActive(userID string, isActive bool) (*models.User, error) {
 	user, err := s.repo.GetByID(userID)
 	if err != nil {

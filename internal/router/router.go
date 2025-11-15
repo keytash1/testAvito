@@ -14,8 +14,9 @@ func New() *gin.Engine {
 	userRepo := repository.NewUserRepository()
 	teamRepo := repository.NewTeamRepository()
 	prRepo := repository.NewPRRepository()
+	trRepo := repository.NewTransactionRepository()
 
-	teamSvc := services.NewTeamService(teamRepo, userRepo)
+	teamSvc := services.NewTeamService(teamRepo, userRepo, trRepo)
 	userSvc := services.NewUserService(userRepo)
 	prSvc := services.NewPRService(prRepo, userRepo, teamRepo)
 

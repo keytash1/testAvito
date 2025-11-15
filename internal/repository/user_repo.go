@@ -3,6 +3,8 @@ package repository
 import (
 	"pr_reviewer_service_go/internal/db"
 	"pr_reviewer_service_go/internal/models"
+
+	"gorm.io/gorm"
 )
 
 type UserRepository struct{}
@@ -11,8 +13,8 @@ func NewUserRepository() *UserRepository {
 	return &UserRepository{}
 }
 
-func (r *UserRepository) CreateUser(u *models.User) error {
-	return db.DB.Create(u).Error
+func (r *UserRepository) CreateUser(tx *gorm.DB, u *models.User) error {
+	return tx.Create(u).Error
 }
 
 func (r *UserRepository) SetUserActiveStatus(userID string, isActive bool) error {
@@ -36,7 +38,7 @@ func (r *UserRepository) GetActiveUsersByTeam(teamName string) ([]models.User, e
 func (r *UserRepository) GetUsersReviews(userID string) ([]models.PullRequest, error) {
 	var pullRequests []models.PullRequest
 	err := db.DB.
-		Where("assigned_reviewers && ? AND status = ?", []string{userID}, models.PullRequestStatusOPEN).
+		Where("assigned_reviewers @> ? AND status = ?", `["`+userID+`"]`, models.PullRequestStatusOPEN).
 		Find(&pullRequests).Error
 	return pullRequests, err
 }
