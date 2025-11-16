@@ -29,8 +29,8 @@ type PullRequest struct {
 	PullRequestID     string            `json:"pull_request_id" gorm:"primaryKey;type:varchar(100)"`
 	PullRequestName   string            `json:"pull_request_name" gorm:"not null"`
 	AuthorID          string            `json:"author_id" gorm:"index;not null"`
-	Status            PullRequestStatus `json:"status" gorm:"type:varchar(20);not null;index:idx_pr_status"`
-	AssignedReviewers []string          `json:"assigned_reviewers" gorm:"type:jsonb;serializer:json;index:idx_pr_reviewers,gin"`
+	Status            PullRequestStatus `json:"status" gorm:"type:varchar(20);not null"`
+	AssignedReviewers []string          `json:"assigned_reviewers" gorm:"type:jsonb;serializer:json"`
 	CreatedAt         time.Time         `json:"createdAt"`
 	MergedAt          *time.Time        `json:"mergedAt,omitempty"`
 }
@@ -64,5 +64,5 @@ type User struct {
 	UserID   string `json:"user_id" gorm:"primaryKey;type:varchar(100)"`
 	Username string `json:"username" gorm:"not null"`
 	IsActive bool   `json:"is_active" gorm:"default:true"`
-	TeamName string `json:"team_name" gorm:"index:idx_user_team"`
+	TeamName string `json:"team_name" gorm:"index"`
 }
