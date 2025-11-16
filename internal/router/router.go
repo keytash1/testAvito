@@ -24,6 +24,9 @@ func New() *gin.Engine {
 	userH := handlers.NewUserHandler(userSvc, prRepo)
 	prH := handlers.NewPullRequestHandler(prSvc)
 
+	statsSvc := services.NewStatsService(prRepo, userRepo)
+	statsH := handlers.NewStatsHandler(statsSvc)
+
 	api := r.Group("/")
 	{
 		// Teams
@@ -38,6 +41,9 @@ func New() *gin.Engine {
 		api.POST("/pullRequest/create", prH.PostPullRequestCreate)
 		api.POST("/pullRequest/merge", prH.PostPullRequestMerge)
 		api.POST("/pullRequest/reassign", prH.PostPullRequestReassign)
+
+		// Stats
+		api.GET("/stats/reviewers", statsH.GetReviewerStats)
 	}
 
 	return r

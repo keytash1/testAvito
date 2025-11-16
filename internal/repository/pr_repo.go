@@ -38,3 +38,19 @@ func (r *PullRequestRepository) GetByID(prID string) (*models.PullRequest, error
 	}
 	return &pr, nil
 }
+
+func (r *PullRequestRepository) CountOpenReviewsByReviewer(userID string) int64 {
+	var count int64
+	db.DB.Model(&models.PullRequest{}).
+		Where("assigned_reviewers @> ? AND status = ?", `["`+userID+`"]`, models.PullRequestStatusOPEN).
+		Count(&count)
+	return count
+}
+
+func (r *PullRequestRepository) CountAllReviewsByReviewer(userID string) int64 {
+	var count int64
+	db.DB.Model(&models.PullRequest{}).
+		Where("assigned_reviewers @> ?", `["`+userID+`"]`).
+		Count(&count)
+	return count
+}

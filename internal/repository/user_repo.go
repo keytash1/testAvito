@@ -52,3 +52,9 @@ func (r *UserRepository) GetByID(userID string) (*models.User, error) {
 	}
 	return &user, nil
 }
+
+func (r *UserRepository) GetAll() ([]models.User, error) {
+	var users []models.User
+	err := db.DB.Find(&users).Error
+	return users, err
+}

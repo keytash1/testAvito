@@ -17,3 +17,7 @@ type PullRequestHandler interface {
 	PostPullRequestMerge(c *gin.Context)
 	PostPullRequestReassign(c *gin.Context)
 }
+
+type StatsHandler interface {
+	GetReviewerStats(c *gin.Context)
+}

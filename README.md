@@ -56,10 +56,14 @@ curl -X POST http://localhost:8080/users/setIsActive -H "Content-Type: applicati
 
 # Мердж PR
 curl -X POST http://localhost:8080/pullRequest/merge -H "Content-Type: application/json" -d "{"pull_request_id":"pr-1001"}"
+
+# Статистика
+curl http://localhost:8080/stats/reviewers
 ```
 
 ## Дополнительные задания
 ### E2E тесты
+Тестовое окружение будет доступно по адресу: http://localhost:8081
 Запустить тестовое окружение:
 ```bash
 docker-compose -f docker-compose.test.yml up -d --build
@@ -84,10 +88,21 @@ docker-compose -f docker-compose.test.yml exec loadtest k6 run /scripts/loadtest
 ```
 Результаты: loadtest/loadtest_report.md
 
+### Эндпоинт статистики
+Возвращает количество открытых ревью и общее количество ревью за всё время по каждому пользователю.
+**GET /stats/reviewers**
+Ответ:
+{
+  "reviewer_stats": [
+    {"user_id":"u1","open_reviews":2,"total_reviews_ever":5},
+    {"user_id":"u2","open_reviews":0,"total_reviews_ever":3},
+    ...
+  ]
+}
+
 
 ## TODO
 
-* Добавить простой эндпоинт статистики (например, количество назначений по пользователям и/или по PR).
 * Добавить метод массовой деактивации пользователей команды и безопасную переназначаемость открытых PR (стремиться уложиться в 100 мс для средних объёмов данных).
 - Добавить индексы
 - Логирование

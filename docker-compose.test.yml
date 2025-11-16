@@ -22,7 +22,7 @@ services:
     environment:
       DATABASE_URL: postgres://test_user:test_pass@db_e2e:5432/test_db?sslmode=disable
       SERVER_URL: :8080
-      AUTO_MIGRATE: "true"
+      IS_TEST: "true"
     ports:
       - "8081:8080"
     command: sh -c "sleep 3 && ./server"

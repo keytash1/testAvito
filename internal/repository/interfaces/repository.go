@@ -14,6 +14,7 @@ type UserRepository interface {
 	GetActiveUsersByTeam(teamName string) ([]models.User, error)
 	GetUsersReviews(userID string) ([]models.PullRequest, error)
 	GetByID(userID string) (*models.User, error)
+	GetAll() ([]models.User, error)
 }
 
 type TeamRepository interface {
@@ -26,6 +27,8 @@ type PullRequestRepository interface {
 	MergePullRequest(prID string, mergedAt *time.Time) error
 	Save(pr *models.PullRequest) error
 	GetByID(prID string) (*models.PullRequest, error)
+	CountOpenReviewsByReviewer(userID string) int64
+	CountAllReviewsByReviewer(userID string) int64
 }
 
 type TransactionRepository interface {

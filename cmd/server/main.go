@@ -10,8 +10,22 @@ import (
 
 func main() {
 	db.Connect()
-	// db.DB.Migrator().DropTable(&models.User{}, &models.Team{}, &models.PullRequest{})
-	if err := db.DB.AutoMigrate(&models.User{}, &models.Team{}, &models.PullRequest{}); err != nil {
+
+	if os.Getenv("IS_TEST") == "true" {
+		if err := db.DB.Migrator().DropTable(
+			&models.PullRequest{},
+			&models.User{},
+			&models.Team{},
+		); err != nil {
+			log.Fatal("failed to drop tables:", err)
+		}
+	}
+
+	if err := db.DB.AutoMigrate(
+		&models.User{},
+		&models.Team{},
+		&models.PullRequest{},
+	); err != nil {
 		log.Fatal("migrate:", err)
 	}
 

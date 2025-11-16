@@ -18,3 +18,7 @@ type PullRequestService interface {
 	MergePullRequest(pullRequestId string) (*models.PullRequest, error)
 	ReassignReviewer(pullRequestId string, oldReviewerID string) (string, *models.PullRequest, error)
 }
+
+type StatsService interface {
+	ReviewerStats() ([]map[string]any, error)
+}
