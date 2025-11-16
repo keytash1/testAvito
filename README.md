@@ -86,19 +86,30 @@ docker-compose -f docker-compose.test.yml up -d --build
 ```bash
 docker-compose -f docker-compose.test.yml exec loadtest k6 run /scripts/loadtest.js
 ```
-Результаты: loadtest/loadtest_report.md
+Отчет: loadtest/loadtest_report.md
 
 ### Эндпоинт статистики
 Возвращает количество открытых ревью и общее количество ревью за всё время по каждому пользователю.
 **GET /stats/reviewers**
-Ответ:
+Пример ответа:
 {
   "reviewer_stats": [
-    {"user_id":"u1","open_reviews":2,"total_reviews_ever":5},
-    {"user_id":"u2","open_reviews":0,"total_reviews_ever":3},
+    {
+      "open_reviews": 1,
+      "total_reviews_ever": 2,
+      "user_id": "u1"
+    },
+    {
+      "open_reviews": 1,
+      "total_reviews_ever": 4,
+      "user_id": "u2"
+    },
     ...
+    }
   ]
 }
+
+
 
 ## Комментарий к ТЗ
 
