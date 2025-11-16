@@ -2,19 +2,20 @@ package handlers
 
 import (
 	"net/http"
+	handlerInterfaces "pr_reviewer_service_go/internal/handlers/interfaces"
 	"pr_reviewer_service_go/internal/models"
-	"pr_reviewer_service_go/internal/repository"
-	"pr_reviewer_service_go/internal/services"
+	repoInterfaces "pr_reviewer_service_go/internal/repository/interfaces"
+	serviceInterfaces "pr_reviewer_service_go/internal/services/interfaces"
 
 	"github.com/gin-gonic/gin"
 )
 
 type UserHandler struct {
-	svc    *services.UserService
-	prRepo *repository.PullRequestRepository
+	svc    serviceInterfaces.UserService
+	prRepo repoInterfaces.PullRequestRepository
 }
 
-func NewUserHandler(s *services.UserService, prRepo *repository.PullRequestRepository) *UserHandler {
+func NewUserHandler(s serviceInterfaces.UserService, prRepo repoInterfaces.PullRequestRepository) handlerInterfaces.UserHandler {
 	return &UserHandler{svc: s, prRepo: prRepo}
 }
 

@@ -3,13 +3,14 @@ package repository
 import (
 	"pr_reviewer_service_go/internal/db"
 	"pr_reviewer_service_go/internal/models"
+	"pr_reviewer_service_go/internal/repository/interfaces"
 
 	"gorm.io/gorm"
 )
 
 type UserRepository struct{}
 
-func NewUserRepository() *UserRepository {
+func NewUserRepository() interfaces.UserRepository {
 	return &UserRepository{}
 }
 

@@ -3,12 +3,15 @@ package repository
 import (
 	"pr_reviewer_service_go/internal/db"
 	"pr_reviewer_service_go/internal/models"
+	"pr_reviewer_service_go/internal/repository/interfaces"
 	"time"
 )
 
 type PullRequestRepository struct{}
 
-func NewPRRepository() *PullRequestRepository { return &PullRequestRepository{} }
+func NewPRRepository() interfaces.PullRequestRepository {
+	return &PullRequestRepository{}
+}
 
 func (r *PullRequestRepository) CreatePullRequest(pr *models.PullRequest) error {
 	return db.DB.Create(pr).Error

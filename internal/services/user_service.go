@@ -2,14 +2,17 @@ package services
 
 import (
 	"pr_reviewer_service_go/internal/models"
-	"pr_reviewer_service_go/internal/repository"
+	repoInterfaces "pr_reviewer_service_go/internal/repository/interfaces"
+	serviceInterfaces "pr_reviewer_service_go/internal/services/interfaces"
 )
 
 type UserService struct {
-	repo *repository.UserRepository
+	repo repoInterfaces.UserRepository
 }
 
-func NewUserService(r *repository.UserRepository) *UserService { return &UserService{repo: r} }
+func NewUserService(r repoInterfaces.UserRepository) serviceInterfaces.UserService {
+	return &UserService{repo: r}
+}
 
 func (s *UserService) SetUserActive(userID string, isActive bool) (*models.User, error) {
 	user, err := s.repo.GetByID(userID)

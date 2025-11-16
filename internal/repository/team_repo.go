@@ -3,13 +3,16 @@ package repository
 import (
 	"pr_reviewer_service_go/internal/db"
 	"pr_reviewer_service_go/internal/models"
+	"pr_reviewer_service_go/internal/repository/interfaces"
 
 	"gorm.io/gorm"
 )
 
 type TeamRepository struct{}
 
-func NewTeamRepository() *TeamRepository { return &TeamRepository{} }
+func NewTeamRepository() interfaces.TeamRepository {
+	return &TeamRepository{}
+}
 
 func (r *TeamRepository) CreateTeam(tx *gorm.DB, t *models.Team) error {
 	var existing models.Team

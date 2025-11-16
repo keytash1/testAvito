@@ -2,18 +2,19 @@ package services
 
 import (
 	"pr_reviewer_service_go/internal/models"
-	"pr_reviewer_service_go/internal/repository"
+	repoInterfaces "pr_reviewer_service_go/internal/repository/interfaces"
+	serviceInterfaces "pr_reviewer_service_go/internal/services/interfaces"
 
 	"gorm.io/gorm"
 )
 
 type TeamService struct {
-	teamRepo        *repository.TeamRepository
-	userRepo        *repository.UserRepository
-	transactionRepo *repository.TransactionRepository
+	teamRepo        repoInterfaces.TeamRepository
+	userRepo        repoInterfaces.UserRepository
+	transactionRepo repoInterfaces.TransactionRepository
 }
 
-func NewTeamService(tr *repository.TeamRepository, ur *repository.UserRepository, transRepo *repository.TransactionRepository) *TeamService {
+func NewTeamService(tr repoInterfaces.TeamRepository, ur repoInterfaces.UserRepository, transRepo repoInterfaces.TransactionRepository) serviceInterfaces.TeamService {
 	return &TeamService{teamRepo: tr, userRepo: ur, transactionRepo: transRepo}
 }
 

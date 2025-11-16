@@ -3,17 +3,18 @@ package services
 import (
 	"math/rand"
 	"pr_reviewer_service_go/internal/models"
-	"pr_reviewer_service_go/internal/repository"
+	repoInterfaces "pr_reviewer_service_go/internal/repository/interfaces"
+	serviceInterfaces "pr_reviewer_service_go/internal/services/interfaces"
 	"time"
 )
 
 type PullRequestService struct {
-	prRepo   *repository.PullRequestRepository
-	userRepo *repository.UserRepository
-	teamRepo *repository.TeamRepository
+	prRepo   repoInterfaces.PullRequestRepository
+	userRepo repoInterfaces.UserRepository
+	teamRepo repoInterfaces.TeamRepository
 }
 
-func NewPRService(pr *repository.PullRequestRepository, ur *repository.UserRepository, tr *repository.TeamRepository) *PullRequestService {
+func NewPRService(pr repoInterfaces.PullRequestRepository, ur repoInterfaces.UserRepository, tr repoInterfaces.TeamRepository) serviceInterfaces.PullRequestService {
 	return &PullRequestService{prRepo: pr, userRepo: ur, teamRepo: tr}
 }
 

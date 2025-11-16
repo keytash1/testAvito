@@ -2,17 +2,18 @@ package handlers
 
 import (
 	"net/http"
+	handlerInterfaces "pr_reviewer_service_go/internal/handlers/interfaces"
 	"pr_reviewer_service_go/internal/models"
-	"pr_reviewer_service_go/internal/services"
+	serviceInterfaces "pr_reviewer_service_go/internal/services/interfaces"
 
 	"github.com/gin-gonic/gin"
 )
 
 type TeamHandler struct {
-	svc *services.TeamService
+	svc serviceInterfaces.TeamService
 }
 
-func NewTeamHandler(s *services.TeamService) *TeamHandler {
+func NewTeamHandler(s serviceInterfaces.TeamService) handlerInterfaces.TeamHandler {
 	return &TeamHandler{svc: s}
 }
 

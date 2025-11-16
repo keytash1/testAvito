@@ -2,13 +2,14 @@ package repository
 
 import (
 	"pr_reviewer_service_go/internal/db"
+	"pr_reviewer_service_go/internal/repository/interfaces"
 
 	"gorm.io/gorm"
 )
 
 type TransactionRepository struct{}
 
-func NewTransactionRepository() *TransactionRepository {
+func NewTransactionRepository() interfaces.TransactionRepository {
 	return &TransactionRepository{}
 }
 

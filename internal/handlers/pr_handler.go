@@ -2,17 +2,18 @@ package handlers
 
 import (
 	"net/http"
+	handlerInterfaces "pr_reviewer_service_go/internal/handlers/interfaces"
 	"pr_reviewer_service_go/internal/models"
-	"pr_reviewer_service_go/internal/services"
+	serviceInterfaces "pr_reviewer_service_go/internal/services/interfaces"
 
 	"github.com/gin-gonic/gin"
 )
 
 type PullRequestHandler struct {
-	svc *services.PullRequestService
+	svc serviceInterfaces.PullRequestService
 }
 
-func NewPullRequestHandler(s *services.PullRequestService) *PullRequestHandler {
+func NewPullRequestHandler(s serviceInterfaces.PullRequestService) handlerInterfaces.PullRequestHandler {
 	return &PullRequestHandler{svc: s}
 }
 
