@@ -13,8 +13,7 @@ export let options = {
   },
 };
 
-// Используем переменную окружения или значение по умолчанию
-const BASE_URL = __ENV.K6_BASE_URL || 'http://app_e2e:8080';
+const BASE_URL = __ENV.K6_BASE_URL;
 
 export default function () {
   const timestamp = Date.now();
