@@ -32,6 +32,8 @@ docker-compose up --build
 - **POST /pullRequest/merge** — Пометить PR как MERGED
 - **POST /pullRequest/reassign** — Переназначить ревьювера
 
+### Stats
+- **GET /stats/reviewers** - Статистика ревью по юзерам
 
 ## Примеры запросов
 
@@ -92,6 +94,7 @@ docker-compose -f docker-compose.test.yml exec loadtest k6 run /scripts/loadtest
 Возвращает количество открытых ревью и общее количество ревью за всё время по каждому пользователю.
 **GET /stats/reviewers**
 Пример ответа:
+```bash
 {
   "reviewer_stats": [
     {
@@ -108,8 +111,7 @@ docker-compose -f docker-compose.test.yml exec loadtest k6 run /scripts/loadtest
     }
   ]
 }
-
-
+```
 
 ## Комментарий к ТЗ
 
