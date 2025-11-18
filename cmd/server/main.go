@@ -11,9 +11,7 @@ import (
 )
 
 func main() {
-	if err := godotenv.Load(); err != nil && !os.IsNotExist(err) {
-		log.Println("Warning: error loading .env file:", err)
-	}
+	_ = godotenv.Load()
 	db.Connect()
 
 	if os.Getenv("IS_TEST") == "true" {
