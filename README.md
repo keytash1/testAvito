@@ -35,6 +35,8 @@ docker-compose up --build
 ### Stats
 - **GET /stats/reviewers** - Статистика ревью по юзерам
 
+Переменные окружения указаны в docker-compose
+
 ## Примеры запросов
 
 ```bash

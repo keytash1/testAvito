@@ -6,12 +6,9 @@ import (
 	"pr_reviewer_service_go/internal/db"
 	"pr_reviewer_service_go/internal/models"
 	"pr_reviewer_service_go/internal/router"
-
-	"github.com/joho/godotenv"
 )
 
 func main() {
-	_ = godotenv.Load()
 	db.Connect()
 
 	if os.Getenv("IS_TEST") == "true" {

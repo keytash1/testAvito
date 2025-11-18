@@ -21,15 +21,14 @@ services:
     depends_on:
       db_e2e:
         condition: service_healthy
-    env_file:
-      - .env
     environment:
       DATABASE_URL: postgres://test_user:test_pass@db_e2e:5432/test_db?sslmode=disable
-      IS_TEST: "true"           
+      SERVER_URL: :8080
+      IS_TEST: "true"
     ports:
       - "8081:8080"
-    command: ./server       
-         
+    command: sh -c "sleep 3 && ./server"
+
   tests:
     build:
       context: .
