@@ -6,9 +6,14 @@ import (
 	"pr_reviewer_service_go/internal/db"
 	"pr_reviewer_service_go/internal/models"
 	"pr_reviewer_service_go/internal/router"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	if err := godotenv.Load(); err != nil && !os.IsNotExist(err) {
+		log.Println("Warning: error loading .env file:", err)
+	}
 	db.Connect()
 
 	if os.Getenv("IS_TEST") == "true" {
